@@ -2,6 +2,7 @@
 #include <exception>
 #include <iostream>
 #include <stdexcept>
+#include <string>
 
 template <typename T> class Array {
 private:
@@ -53,17 +54,30 @@ template <typename T> Array<T>::~Array() {
 };
 
 template <typename T> T &Array<T>::operator[](size_t pos) {
-  if (size() < pos)
+  if (size() <= pos)
     throw std::out_of_range("Index is out of bounds");
-  else
-    return this->value[pos];
+  return this->value[pos];
 }
 
 template <typename T> const T &Array<T>::operator[](size_t pos) const {
-  if (size() < pos)
+  if (size() <= pos)
     throw std::out_of_range("Index is out of bounds");
-  else
-    return this->value[pos];
+  return this->value[pos];
 }
 
-int main() {}
+template <typename T> size_t Array<T>::size() const { return this->ArraySize; }
+
+int main() {
+  try {
+    Array<int> ar(1);
+    Array<std::string> str(2);
+
+    ar[0] = 10;
+    str[0] = "Ayoub";
+    str[1] = "Hamou";
+    std::cout << ar[0] << std::endl;
+    std::cout << "(" << str[0] << ")" << std::endl;
+  } catch (std::exception &e) {
+    std::cout << e.what() << std::endl;
+  }
+}
